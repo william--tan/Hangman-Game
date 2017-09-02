@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hangman</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.js"></script>
+  <link rel="stylesheet" href="css/animate.css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700,800" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Belleza" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Vollkorn:400,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="css/icomoon.css">
+  
+</head>
+
+<body>
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div class="masthead clearfix">
+                    <div class="inner container">
+                        <div class="col-auto-6">
+                            <h3 class="masthead-brand"> WikiWords </h3>
+                        </div>
+                        <!--         <nav class="nav nav-masthead">
+            <li> <i class="icon-clock2"></i> </li>
+        </nav> -->
+                    </div>
+                </div>
+            </div>
+            <div class="inner" data-wow-duration="1s">
+                
+                <pre id="guessword"> Hangman Game</pre>
+              
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 col-centered">
+                  <p class="lead" id="hint">This game generates a random Wikipedia article and turns it into a hangman game.</p>
+                </div>
+                
+                
+                <p class="lead-btn">
+                    <button class="btn btn-m btn-secondary btn-outline" id="lifebutton">
+                        <font class="icon-heart" style="display:inline-block;"></font>
+                        <span id="life"></span>
+                    </button>
+                </p>
+                <p class="lead-btn">
+                    <button class="btn btn-m btn-secondary btn-outline" id="scorebutton">
+                        <font class="icon-trophy" style="display:inline-block;"></font>
+                        <span id="score"></span>
+                    </button>
+                </p>
+                <p class="lead-btn">
+                    <button class="btn btn-m btn-secondary btn-outline" id="revealbutton"  rel='tooltip'>
+                        <font class="icon-eye" style="display:inline-block;"></font>
+                        <span id="reveal"></span>
+                    </button>
+                </p>
+                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 col-centered">
+                    <div class="card" id="guessedcard">
+                      <div class="card-block" id="guessed">
+                       <span style="font-weight: 700"> Press Any Key </span>
+                      </div>
+                 </div>
+                </div>
+
+            </div>
+            <div class="inner-cover">
+            </div>
+            <div class="mastfoot">
+            </div>
+        </div>
+    </div>
+    </div>
+    
+<style>
+
+.site-wrapper{
+  display: table;
+  width: 100%;
+  height: 100vh;
+  min-height: 100%;
+  background: linear-gradient(270deg, #5FAD56, #F2C14E, #F78154, #4D9078, #5FAD56);
+  background-size: 1000% 100%;
+  animation: AnimationName 300s ease infinite;
+}
+
+@keyframes AnimationName { 
+    0%{background-position:0% 50%}
+    100%{background-position:100% 50%}
+}
+
+.masthead-brand{
+  font-family: "Work Sans";
+  font-weight: 800;
+  font-size: 45px;
+  background: -webkit-linear-gradient(180deg, #1446A0, #DB3069, #F5D547, #363537, #1446A0); 
+  background-size: 900% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: AnimationName 8s ease infinite;
+}
+
+.gradientc{
+  background: -webkit-linear-gradient(180deg, #19381F, #EEE82C, #91CB3E, #53A548, #4C934C);
+  background-size: 300% 100%; 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: AnimationName 10s ease infinite;
+}
+
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}
+
+#lifebutton:hover, #lifebutton:focus{
+  background-color: #FF5553;
+  color: white;
+  border-color: #FF5553;
+}
+
+#scorebutton:hover, #scorebutton:focus{
+  background-color: #7F5AFF;
+  color: white;
+  border-color: #7F5AFF;
+}
+
+#revealbutton:hover, #revealbutton:focus{
+  background-color: #548687;
+  color: white;
+  border-color: #548687; 
+}
+
+#lifebutton{
+  visibility: hidden;
+  width: 80px;
+}
+
+#scorebutton{
+  visibility: hidden;
+  width: 80px;
+}
+
+#revealbutton{
+  visibility: hidden;
+  width: 80px;
+}
+
+.lead-btn{
+  display: inline-block;
+}
+
+#guessedcard{
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 4px;
+  visibility: visible;
+}
+#guessed{
+  padding: 20px;
+  font-family: "Work Sans";
+  font-size: 1.2em;
+}
+.on{
+  opacity: 1;
+}
+
+.off{
+  opacity: 0.3;
+}
+
+#guessword{
+  font-size: 3em;
+    font-family: "Work Sans";
+  font-weight: 700;
+  margin-top: 10%;
+}
+.nav-masthead{
+  float: right;
+}
+.site-wrapper-inner{
+  display: table-cell;
+}
+
+.inner{
+  padding: 2rem;
+  text-align: center;
+}
+
+.cover{
+  padding: 0 1.5rem;
+  margin: 0 25% 0 25%;
+  text-align: center;
+  margin-top: 15rem;
+  
+}
+
+#life{
+  font-family: "Work Sans";
+}
+
+.btn-outline{
+  border: 2px solid black;
+  color: black;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.lead-btn button{
+  margin-top: 50px;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 300;
+}
+
+.lead{
+  font-family: "Belleza" ;
+}
+
+
+
+</style>
+
+  <script src="js/wow.min.js"></script>
+
+<script type="text/javascript">
+
+//WIKI SCRAPER
+var wikiURL = 'https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&grnlimit=1000&prop=extracts&exintro=&explaintext=';
+var vocab = {
+    "word":[],
+    "def":[],
+    "len":[]
+  };
+var locw = [];
+var findw = [' is ', ' was ', ' were ', ' are '];
+var dwant = [];
+var regex = /^[a-z ]+$/i;
+var w =[], d=[], l=[], imgurl = "";
+var retriv = function (index){
+  for (let i in vocab.word)
+  {
+    if (dwant.indexOf(i) == -1){
+    w.push(vocab.word[i]);
+    d.push(vocab.def[i]);
+    l.push(vocab.len[i]);
+    }
+  }
+};
+var retrivv = function (index){
+  let w2=[], d2=[], l2=[];
+  for (let i in d)
+  {
+    if (dwant.indexOf(i) == -1){
+    w2.push(w[i]);
+    d2.push(d[i]);
+    l2.push(l[i]);
+    }
+  }
+
+  w = w2;
+  d = d2;
+  l = l2;
+};
+
+function makehint() {
+            dwant=[];
+            
+            for(let i in d){
+              let contain = false;
+              let loc = 301;
+              for (let j in findw)
+              {
+                if (d[i].indexOf(findw[j]) > -1){
+                  contain = true
+                  if (d[i].indexOf(findw[j]) < loc)
+                    loc = d[i].indexOf(findw[j]);
+                }
+              }
+
+              if (contain == false && dwant.indexOf(i) == -1)
+                dwant.push(i);
+              loc = parseInt(loc);
+              if (contain == true){
+                // console.log(typeof d[i]);
+                var str = d[i].substr(loc+4);
+                d[i] = str;
+              }
+            }
+
+            retrivv();
+
+            for(let i in d){
+              if(d[i][0] == " " || d[i][0] == "e")
+                d[i] = d[i].substr(1);
+            }
+};
+
+function scrape(){
+ $.ajax({
+      url: wikiURL, 
+      dataType: "jsonp",
+      success: function(data) {
+            dwant = [];
+            for (let i in data.query.pages)
+            {
+              //console.log(data.query.pages[i]);
+              vocab.word.push(data.query.pages[i].title);
+              vocab.def.push(data.query.pages[i].extract);
+              vocab.len.push(data.query.pages[i].title.length);
+            }
+
+
+            for(let i in vocab.len){
+              if (vocab.len[i] > 15){
+                dwant.push(i);
+              }
+            }
+
+            for(let j in vocab.def){
+              if (typeof vocab.def[j] === 'undefined' || vocab.def[j].length > 300){
+                if(dwant.indexOf(j) == -1)
+                  dwant.push(j);
+              }
+            }
+
+            for(let j in vocab.word){
+              if (vocab.word[j].indexOf('(') > -1 || vocab.word[j].indexOf(',') > -1 || vocab.word[j].indexOf('.') > -1 || regex.test(vocab.word[j]) == false){
+                if (dwant.indexOf(j) == -1)
+                  dwant.push(j);
+              }
+            }
+
+            retriv();
+
+            vocab.word = [];
+            vocab.def = [];
+            vocab.len = [];
+      }})
+};
+
+function scrapen(n){
+  for (let i = 0; i < n; i++)
+    scrape();
+}
+
+// var linkimage = function (query){
+//   $.ajax({
+//     url: "https://www.googleapis.com/customsearch/v1?q="+query+"&cx=007029864813202900250:vurz8ekf5ds&searchType=image&key=AIzaSyCyJbc1fZnWQj1iwsUvAn83R02gMLZ2ffU&num=1&fields=items%2Flink",
+//     dataType: "json",
+//     success: function(data){
+//       console.log(typeof data.items[0].link);
+//       setTimeout(function(){imgurl = data.items[0].link;}, 1000);
+//     }
+//   })
+// };
+
+
+$("#revealbutton").click(function(){
+  let found = false;
+  let same = true;
+  for (let i in hangman.Guess)
+    if(hangman.Guess[i] != hangman.chosenWordA[i])
+        same = false;
+      
+  while (found == false && hangman.reveal > 0 && same == false)
+  {
+    let idx = Math.floor(Math.random()*hangman.Guess.length);
+    let l = hangman.Guess[idx];
+    if (hangman.Guess[idx] == "*")
+    {
+      hangman.userGuess.push(hangman.chosenWordA[idx]);
+      for (let i in hangman.chosenWordA)
+      {
+        if (hangman.chosenWordA[i] == hangman.chosenWordA[idx])
+        {
+          hangman.Guess[i] = hangman.chosenWordA[idx];
+          hangman.score += 5;
+        }
+      }
+      found = true;
+      hangman.reveal--;
+      hangman.game(hangman.chosenWordA[idx]);
+    }
+  }
+});
+
+var animateonce = function (id, animation, delay){
+  var classname = id.attr('class');
+  if (typeof delay == 'undefined')
+    delay = 0;
+  id.removeClass().addClass(animation+" animated "+classname).css("animation-delay", delay).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass();
+            $(this).addClass(classname)});
+}
+  animateonce($("#guessword"), "fadeIn", "0");
+  animateonce($("#hint"), "fadeIn", "0s");
+  animateonce($("#guessedcard"), "fadeInUp", "0.3s");
+  var hangman =
+  {
+    'gameStart' : false,
+    'words' : [],
+    'hints' : [],
+    'userGuess' : [],
+    'attemptsLeft': 10,
+    'chosenWord': "",
+    'chosenHint': "",
+    'chosenWordA' : [],
+    'Guess' : [],
+    'win' : false,
+    'score': 0,
+    'reveal': 10,
+    'game': function(keyPressed)
+    {
+      if (this.gameStart == true)
+      {
+        //console.log("Game Started / Resumed");
+        console.clear();
+        //$("#guessword").removeClass("gradientc")
+        $("#guessedcard").css("visibility", "visible");
+        $("#lifebutton").css("visibility", "visible");
+        $("#scorebutton").css("visibility", "visible");
+        $("#revealbutton").css("visibility", "visible");
+        var message = "";
+        for (let i in this.chosenWordA){
+          if (this.Guess[i] == this.chosenWordA[i])
+            message += this.Guess[i]+" ";
+          else
+            message += "_ ";
+        }
+
+        console.log(message);
+        $("#guessword").html(message);
+
+        //$("#picthumb").attr("src", imgurl);
+        
+        // if (imgurl != "" && imgurl != checkimge){
+        //   setTimeout(function(){$("#picthumb").attr("style", "opacity: 1");}, 1000);
+        // }
+          
+        console.log("Hint : "+this.chosenHint);
+        $("#hint").html(this.chosenHint);
+        $("#life").html(this.attemptsLeft);
+        $("#score").html(this.score);
+        $("#reveal").html(this.reveal);
+        console.log("Your guesses: " + this.userGuess);
+        console.log("Attempts: " + this.attemptsLeft);
+        $("#guessed").empty();
+        var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (let i = 0; i < alphabet.length; i++){
+          var $span = $("<span>");
+          $span.html("&nbsp;"+alphabet[i]+"&nbsp;");
+          if (hangman.userGuess.indexOf(alphabet[i].toLowerCase()) > -1){
+            if (alphabet[i].toLowerCase() == keyPressed){
+              animateonce($span, "fadeIn");
+            }
+            $span.addClass("on");
+          }
+          else
+            $span.addClass("off");
+          $("#guessed").append($span);
+        }
+
+        var m = $("<span style=\"font-weight: 300\">");
+        //CHECK IF USER WINS
+        this.win = true;
+        for (let i in this.Guess)
+        { 
+          if(this.Guess[i] != this.chosenWordA[i])
+            this.win = false;
+        }
+        let choseni = hangman.words.indexOf(hangman.chosenWord)
+        if (this.win == true){
+          console.log("You Win");
+          //$("#guessword").addClass("gradientc")
+          hangman.words.splice(choseni, 1);
+          hangman.hints.splice(choseni, 1);
+          animateonce($("#guessedcard"), "pulse");   
+          $("#guessword").html(this.chosenWord);
+          $("#lifebutton").css("visibility", "visible");
+          animateonce($("#guessword"), "fadeIn");
+          m.html("You Win.<br>Press Any Key to Continue Game.");
+          $("#guessed").empty();
+          $("#guessed").append(m);
+            
+          //$("#picthumb").attr("style", "opacity: 0");
+          this.gameStart = false;
+          this.score += this.attemptsLeft*5;
+          this.reveal += 2;
+        }
+        else if(this.attemptsLeft == 0)
+        {
+          console.log("You Lose. \nPress any key to start a new game.")
+          hangman.words.splice(choseni, 1);
+          hangman.hints.splice(choseni, 1);
+          //$("#picthumb").attr("style", "opacity: 0");
+          this.gameStart = false;
+          $("#guessword").html(this.chosenWord);
+          $("#lifebutton").css("visibility", "hidden");
+          $("#scorebutton").css("visibility", "hidden");
+          $("#revealbutton").css("visibility", "hidden");
+          m.html("Nice Try! You earned <span id=\"pts\" class=\"js-counter\" data-from=\"0\" data-to=\""+this.score+"\" data-speed=\"1500\" style=\"font-weight: 700\">"+this.score+"</span> points! <br> Press any key to start a New Game.");
+          $("#guessed").empty();
+          $("#guessed").append(m);
+          $("#pts").countTo();
+          animateonce($("#guessedcard"), "pulse");
+          this.score = 0;
+          this.reveal = 10;
+        }
+      }
+    } //game
+  }; //obj
+
+
+var madeh = false;
+
+
+function init(){
+  return new Promise(function(resolve, reject){
+  w = []; d = []; l = [];
+  scrapen(4);
+  setTimeout(function(){resolve();}, 500);
+  }).then(function(){
+    setTimeout(makehint(), 1000);
+  });
+}
+
+    //WHEN USER PRESSES A KEY
+  document.onkeyup = function(event) {
+      //IF GAME ALREADY STARTS
+        //START THE GAME
+        if (hangman.gameStart == false)
+        {   
+          // if (madeh == false){
+          //   makehint();
+          //   madeh = true;
+          //   hangman.words = w;
+          //   hangman.hints = d;
+          // }
+          //console.log(hangman.words);
+
+          init().then(function(){
+          //REINITIALIZE GAME
+            Array.prototype.push.apply(hangman.words, w);
+            Array.prototype.push.apply(hangman.hints, d);
+            hangman.attemptsLeft = 10;
+            hangman.userGuess=[];
+            let ri = Math.floor(Math.random() * hangman.words.length);
+            hangman.chosenWord = hangman.words[ri];
+            hangman.chosenHint = hangman.hints[ri];
+
+            var regex2 = /^[a-z]+$/i;
+            //TRANSFER RANDOM WORD TO ARRAY
+            hangman.chosenWordA = new Array;
+            for (let i in hangman.chosenWord)
+              hangman.chosenWordA.push(hangman.chosenWord[i]);
+
+            //GET IMAGE
+            // linkimage(hangman.chosenWord);
+
+            //INITIALIZE NEW ARRAY OF USER'S CORRECT GUESSES
+            hangman.Guess = new Array(hangman.chosenWord.length)
+
+            for (let i in hangman.chosenWordA){
+              if (regex2.test(hangman.chosenWordA[i]))
+                hangman.chosenWordA[i] = hangman.chosenWordA[i].toLowerCase();
+              else
+                hangman.chosenWordA[i] = hangman.chosenWordA[i];
+            }
+
+            for (let i in hangman.chosenWordA){
+              if (regex2.test(hangman.chosenWordA[i]))
+                hangman.Guess[i] = "*";
+              else
+                hangman.Guess[i] = hangman.chosenWordA[i];
+            }
+            
+            hangman.gameStart = true;
+            animateonce($('#guessword'), "fadeIn", "0");
+            animateonce($('#hint'), "fadeInUp", "0.2s");
+            animateonce($('#lifebutton'), "fadeInUp", "0.3s");
+            animateonce($('#revealbutton'), "fadeInUp", "0.3s");
+            animateonce($('#scorebutton'), "fadeInUp", "0.3s");
+            animateonce($('#guessedcard'), "fadeInUp", "0.5s");
+            hangman.game(" ");
+          });
+        }
+        else //IF GAME ALREADY STARTS, RECORD KEYS PRESSED
+        {
+          let keyPressed = event.key;
+          // KEYS HAVE TO BE A-Z, PUSH KEY TO ARRAY IF IT'S NOT IN THERE
+          if (event.key >= 'a' && event.key <='z' && hangman.userGuess.indexOf(keyPressed) == -1)
+          {
+            hangman.userGuess.push(keyPressed);
+            //IF USER FINDS A MATCH FROM THE CHOSEN WORD, PUT IT ON GUESS
+            if ((hangman.Guess.indexOf(keyPressed) == -1) && (hangman.chosenWordA.indexOf(keyPressed) > -1))
+              for (let i in hangman.chosenWordA){
+                if (hangman.chosenWordA[i] == keyPressed){
+                  hangman.Guess[i] = keyPressed;
+                  hangman.score += 5;
+                }
+              }
+            else // REMOVE ONE LIFE
+              hangman.attemptsLeft -= 1;
+          }
+          
+          hangman.game(keyPressed);
+        }
+  };
+
+
+
+   
+
+  </script>
+
+  <!-- COUNT TO JS-->
+  <script src="js/jquery.countTo.js"></script>
+  <script src="js/tether.min.js"></script>
+<script src="js/drop.min.js"></script>
+<script src="js/tooltip.min.js"></script>
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script src="https://npmcdn.com/bootstrap@4.0.0-alpha.5/dist/js/bootstrap.min.js"></script>
+
+
+
+</body>
+
+</html>
